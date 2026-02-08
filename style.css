@@ -1,0 +1,38 @@
+body {
+  font-family: sans-serif;
+  padding: 1em;
+  max-width: 480px;
+  margin: auto;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.8em;
+}
+
+input, button {
+  width: 100%;
+  padding: 0.5em;
+  margin-top: 0.2em;
+}
+
+button {
+  margin-top: 1em;
+}
+
+#results p, #slabProjection p {
+  margin: 0.4em 0;
+  font-weight: 500;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 8px;
+}
+
+th, td {
+  border: 1px solid #333;
+  padding: 4px;
+  text-align: center;
+}
