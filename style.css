@@ -1,23 +1,105 @@
+/* Base Styles */
 body {
-  font-family: sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   padding: 1em;
   max-width: 480px;
   margin: auto;
+  background-color: #f4f7fa;
+  color: #222;
+  line-height: 1.5;
+}
+
+a {
+  color: #0077cc;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Navigation */
+nav {
+  text-align: center;
+  margin-bottom: 1.5em;
+}
+
+nav a {
+  margin: 0 0.5em;
+  font-weight: 600;
+}
+
+/* Container */
+.container {
+  background-color: #fff;
+  padding: 1.5em;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+/* Headings */
+h1 {
+  color: #111;
+  margin-bottom: 0.8em;
+  font-size: 1.6em;
+}
+
+h2 {
+  margin-top: 1.5em;
+  font-size: 1.3em;
+  color: #333;
+}
+
+/* Form */
+form div {
+  margin-bottom: 1em;
 }
 
 label {
-  display: block;
-  margin-bottom: 0.8em;
+  font-weight: 500;
 }
 
-input, button {
+input, select, button {
   width: 100%;
-  padding: 0.5em;
-  margin-top: 0.2em;
+  padding: 0.65em;
+  margin-top: 0.3em;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-size: 0.95em;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+input:focus, select:focus {
+  border-color: #0077cc;
+  box-shadow: 0 0 5px rgba(0, 119, 204, 0.3);
+  outline: none;
+}
+
+/* Button */
 button {
-  margin-top: 1em;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1em;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+button:hover {
+  background-color: #005fa3;
+  transform: translateY(-1px);
+}
+
+/* Results Card */
+#results, #slider-container, #history-container {
+  margin-top: 1.2em;
+  padding: 1em;
+  border-radius: 10px;
+  background-color: #fefefe;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  transition: transform 0.2s;
 }
 
 #results p, #slabProjection p {
@@ -25,14 +107,83 @@ button {
   font-weight: 500;
 }
 
+/* Color-coded Results */
+.result-normal {
+  color: #28a745; /* green */
+  font-weight: 600;
+}
+
+.result-warning {
+  color: #ff9800; /* orange */
+  font-weight: 600;
+}
+
+.result-danger {
+  color: #d32f2f; /* red */
+  font-weight: 600;
+}
+
+/* Table */
 table {
   border-collapse: collapse;
   width: 100%;
-  margin-top: 8px;
+  margin-top: 0.5em;
 }
 
 th, td {
-  border: 1px solid #333;
-  padding: 4px;
+  border: 1px solid #ccc;
+  padding: 6px;
   text-align: center;
+}
+
+/* Slider */
+#daily-slider {
+  width: 100%;
+  margin-top: 0.5em;
+  accent-color: #0077cc;
+}
+
+#slider-value, #slider-marker, #slider-bill {
+  display: block;
+  margin-top: 0.4em;
+  font-size: 0.9em;
+}
+
+/* History */
+#history-list {
+  list-style-type: disc;
+  padding-left: 1.2em;
+}
+
+#history-list li {
+  padding: 0.4em 0;
+  transition: background-color 0.2s;
+  cursor: default;
+}
+
+#history-list li:hover {
+  background-color: rgba(0, 119, 204, 0.05);
+  border-radius: 4px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  margin: 2em 0 1em;
+  font-size: 0.9em;
+}
+
+footer a {
+  color: #0077cc;
+}
+
+/* Responsive Enhancements */
+@media (max-width: 480px) {
+  body {
+    padding: 0.8em;
+  }
+  
+  .container {
+    padding: 1em;
+  }
 }
