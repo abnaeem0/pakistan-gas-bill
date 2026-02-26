@@ -17,6 +17,7 @@ bugs
     this is made for a one month billing period
         so make sure start and end dates are within this range
             otherwise, app will do what it can, but not perfect
+    estimation is made for 30-day period to slightly overestimate. but it might be good to be exact in that billing cycle
 
 todo
     host the website
@@ -81,4 +82,5 @@ todo
     reduce usage
         keeping clean without daily bathing
         spot cleaning
+
         balti
