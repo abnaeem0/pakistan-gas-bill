@@ -1,65 +1,113 @@
+/* ---------- Base Styles (unchanged) ---------- */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 1em;
+  max-width: 480px;
+  margin: auto;
+  background-color: #f4f7fa;
+  color: #222;
+  line-height: 1.5;
+}
+
+.container {
+  background-color: #fff;
+  padding: 1.5em;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+/* ---------- Meter Mode ---------- */
+
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
 body.meter-mode {
-  background: #e9f2f7;
+  background: #03709b;
+  font-family: 'Share Tech Mono', monospace;
 }
 
-/* Meter housing */
+body.meter-mode .container {
+  background: rgba(255,255,255,0.92);
+}
+
+/* ---------- Meter Display ---------- */
+
 .meter-display {
   display: flex;
   align-items: center;
-  gap: 3px;
-  background: #03709b; /* your real meter color */
-  padding: 12px;
-  border-radius: 10px;
-  box-shadow: inset 0 0 8px rgba(0,0,0,0.25);
+  gap: 2px;
+  padding: 10px;
+  margin-top: 6px;
   width: fit-content;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
-/* digit window (mechanical slot) */
+/* 5 main digits (black background, white numbers) */
 .digit-box {
-  width: 30px;
+  width: 28px;
   height: 42px;
-  background: #111;           /* black slot */
-  border: 1px solid rgba(255,255,255,0.15);
+  background: #000;
+  color: #fff;
+  border: 1px solid #444;
+
   display: flex;
   align-items: center;
   justify-content: center;
 
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 1.5em;
+  font-size: 1.4em;
   font-weight: 700;
-  color: #fff;               /* WHITE digits */
 }
 
-/* red section uses same mechanic */
-.digit-box.red {
-  background: #111;
-  color: #ff4d4d;
-  border-color: rgba(255,0,0,0.3);
-}
-
-/* decimal separator (physical gap feel) */
+/* decimal separator (white block) */
 .decimal-box {
-  width: 10px;
-  text-align: center;
+  width: 18px;
+  height: 42px;
+  background: #fff;
   color: #000;
-  font-weight: bold;
-  margin: 0 2px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+}
+
+/* red digits (white on red background) */
+.digit-box.red {
+  background: #d60000;
+  color: #fff;
+  border: 1px solid #ff6666;
 }
 
 /* unit block */
 .unit-box {
-  background: #000;
-  color: #fff;
+  background: #fff;
+  color: #000;
   padding: 4px 8px;
   margin-left: 6px;
-  font-size: 0.85em;
+
+  display: flex;
+  align-items: center;
+  font-weight: 700;
 }
 
-/* hide raw input in meter mode */
+/* hide inputs in meter mode */
 body.meter-mode input[type="text"] {
   position: absolute;
   opacity: 0;
   pointer-events: none;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 480px) {
+  .meter-display {
+    transform: scale(0.95);
+    transform-origin: left;
+  }
+
+  .digit-box {
+    width: 24px;
+    height: 38px;
+    font-size: 1.2em;
+  }
 }
