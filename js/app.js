@@ -20,6 +20,8 @@ function formatReading(val) {
   return cleanReading(val).padStart(5, '0');
 }
 
+/* ---------- Meter Renderer ---------- */
+
 function renderMeter(id, value) {
   const container = document.getElementById(id);
   if (!container) return;
@@ -27,7 +29,7 @@ function renderMeter(id, value) {
   const digits = formatReading(value).split('');
   container.innerHTML = '';
 
-  // black digits
+  // 5 main digits
   digits.forEach(d => {
     const el = document.createElement('div');
     el.className = 'digit-box';
@@ -35,13 +37,13 @@ function renderMeter(id, value) {
     container.appendChild(el);
   });
 
-  // decimal
+  // decimal separator
   const decimal = document.createElement('div');
   decimal.className = 'decimal-box';
   decimal.textContent = '.';
   container.appendChild(decimal);
 
-  // red digits (fixed)
+  // 3 red digits (fixed visual)
   ['0', '0', '0'].forEach(d => {
     const el = document.createElement('div');
     el.className = 'digit-box red';
@@ -56,10 +58,13 @@ function renderMeter(id, value) {
   container.appendChild(unit);
 }
 
+/* ---------- Usage Logic ---------- */
+
 function computeUsage(prevDate, prevValue, currDate, currValue) {
   const usageM3 = currValue - prevValue;
   const days = daysBetween(prevDate, currDate);
   const dailyAvg = usageM3 / days;
+
   const projectedM3 = dailyAvg * days; // dynamic cycle
 
   return { usageM3, dailyAvg, projectedM3, days };
@@ -100,12 +105,10 @@ function autofillPrevDate() {
   const el = document.getElementById(id);
   if (!el) return;
 
-  // restrict input live
   el.addEventListener('input', () => {
     el.value = cleanReading(el.value);
   });
 
-  // format + render on blur
   el.addEventListener('blur', () => {
     el.value = cleanReading(el.value);
     renderMeter(id.replace('value', 'meter'), el.value);
@@ -121,11 +124,8 @@ form.addEventListener('submit', (e) => {
     const prevDate = document.getElementById('prev-date').value;
     const currDate = document.getElementById('curr-date').value;
 
-    const prevRaw = document.getElementById('prev-value').value;
-    const currRaw = document.getElementById('curr-value').value;
-
-    const prevValue = parseInt(cleanReading(prevRaw), 10);
-    const currValue = parseInt(cleanReading(currRaw), 10);
+    const prevValue = parseInt(cleanReading(document.getElementById('prev-value').value), 10);
+    const currValue = parseInt(cleanReading(document.getElementById('curr-value').value), 10);
 
     const userType = document.getElementById('user-type').value;
 
@@ -134,15 +134,11 @@ form.addEventListener('submit', (e) => {
     }
 
     if (isNaN(prevValue) || isNaN(currValue)) {
-      throw new Error("Please enter valid readings.");
+      throw new Error("Invalid readings.");
     }
 
     if (currValue < prevValue) {
-      alert("Warning: Current reading is lower than previous (possible error or reset).");
-    }
-
-    if (!['protected', 'nonProtected'].includes(userType)) {
-      throw new Error("Invalid user type.");
+      alert("Warning: current reading is lower than previous.");
     }
 
     const { usageM3, dailyAvg, projectedM3, days } =
@@ -151,7 +147,6 @@ form.addEventListener('submit', (e) => {
     const billResult = calculateBill(userType, projectedM3);
 
     renderBill(billResult);
-
     setupSlider(dailyAvg, usageM3, Math.max(30 - days, 0), userType);
 
     saveHistory({
@@ -165,11 +160,11 @@ form.addEventListener('submit', (e) => {
     });
 
   } catch (err) {
-    alert('Error: ' + err.message);
+    alert(err.message);
   }
 });
 
-/* ---------- Meter Toggle ---------- */
+/* ---------- Toggle Meter Mode ---------- */
 
 const toggleBtn = document.getElementById('meter-toggle');
 
@@ -193,6 +188,5 @@ if (toggleBtn) {
 autofillPrevDate();
 renderHistory();
 
-// initial empty meters
 renderMeter('prev-meter', '');
 renderMeter('curr-meter', '');
