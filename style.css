@@ -187,3 +187,60 @@ footer a {
     padding: 1em;
   }
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+/* Hide inputs in meter mode */
+body.meter-mode input[type="text"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Meter display */
+.meter-display {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #03709b;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 6px;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.digit-box {
+  width: 28px;
+  height: 40px;
+  background: white;
+  border: 2px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4em;
+}
+
+.digit-box.red {
+  border-color: red;
+}
+
+.decimal-box {
+  background: white;
+  color: black;
+  padding: 0 6px;
+  font-weight: bold;
+}
+
+.unit-box {
+  background: black;
+  color: white;
+  padding: 4px 6px;
+  margin-left: 6px;
+}
+
+/* Toggle button */
+#meter-toggle {
+  margin-bottom: 1em;
+  background: #03709b;
+}
+
