@@ -2,17 +2,12 @@
 
 /* ---------- Base ---------- */
 body {
-  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-family: 'Share Tech Mono', monospace;
   margin: 0;
   padding: 16px;
-  background: #03709b;   /* ← meter color, always */
+  background: #03709b;
   color: #222;
   min-height: 100vh;
-}
-
-/* Full meter mode background */
-body.meter-mode {
-  font-family: 'Share Tech Mono', monospace;
 }
 
 /* ---------- Nav ---------- */
@@ -38,28 +33,34 @@ nav a:hover {
 .container {
   max-width: 480px;
   margin: auto;
-  background: rgba(255,255,255,0.96);
+  background: #03709b;
   padding: 20px;
   border-radius: 14px;
-  box-shadow: 0 8px 28px rgba(0,0,0,0.22);
-}
-
-body.meter-mode .container {
-  background: rgba(255,255,255,0.95);
 }
 
 /* ---------- Layout spacing ---------- */
 form div {
   margin-bottom: 14px;
 }
+label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.85em;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
 h1 {
   margin-bottom: 12px;
-  color: #014f6e;
+  color: #fff;
+  letter-spacing: 0.04em;
 }
 h2 {
-  color: #014f6e;
-  font-size: 1em;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.95em;
   margin-bottom: 8px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 /* ---------- Inputs ---------- */
@@ -69,33 +70,40 @@ select {
   width: 100%;
   box-sizing: border-box;
   padding: 8px 10px;
-  border: 1.5px solid #b0cdd9;
+  border: 1.5px solid rgba(255,255,255,0.25);
   border-radius: 7px;
   font-size: 0.95em;
-  background: #f7fbfd;
-  color: #222;
+  font-family: 'Share Tech Mono', monospace;
+  background: rgba(0,0,0,0.25);
+  color: #fff;
   margin-top: 4px;
   transition: border-color 0.2s;
 }
 input:focus,
 select:focus {
   outline: none;
-  border-color: #03709b;
-  background: #fff;
+  border-color: rgba(255,255,255,0.7);
+  background: rgba(0,0,0,0.35);
+}
+select option {
+  background: #025a7c;
+  color: #fff;
 }
 
 /* ---------- Buttons ---------- */
 #meter-toggle,
 button[type="submit"] {
-  background: #03709b;
+  background: rgba(0,0,0,0.3);
   color: #fff;
-  border: none;
+  border: 1.5px solid rgba(255,255,255,0.3);
   padding: 10px 16px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 0.95em;
+  font-family: 'Share Tech Mono', monospace;
   font-weight: 600;
-  transition: background 0.18s;
+  letter-spacing: 0.05em;
+  transition: background 0.18s, border-color 0.18s;
 }
 #meter-toggle {
   margin-bottom: 14px;
@@ -108,7 +116,8 @@ button[type="submit"] {
 }
 #meter-toggle:hover,
 button[type="submit"]:hover {
-  background: #025a7c;
+  background: rgba(0,0,0,0.45);
+  border-color: rgba(255,255,255,0.6);
 }
 
 /* ---------- Results / History sections ---------- */
@@ -117,7 +126,24 @@ button[type="submit"]:hover {
 #history-container {
   margin-top: 18px;
   padding-top: 14px;
-  border-top: 1.5px solid #d6eaf2;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  color: #fff;
+}
+#bill-summary,
+#slider-bill,
+#history-list {
+  font-family: 'Share Tech Mono', monospace;
+  color: #fff;
+}
+#history-list {
+  padding-left: 16px;
+}
+
+/* ---------- Slider ---------- */
+#slider-value,
+#slider-marker {
+  color: rgba(255,255,255,0.8);
+  font-size: 0.9em;
 }
 
 /* ---------- Meter block ---------- */
@@ -127,7 +153,7 @@ button[type="submit"]:hover {
   gap: 3px;
   padding: 10px;
   margin-top: 6px;
-  background: rgba(0,0,0,0.08);
+  background: rgba(0,0,0,0.2);
   border-radius: 10px;
   overflow-x: auto;
 }
@@ -142,6 +168,7 @@ button[type="submit"]:hover {
   font-size: 1.3em;
   font-weight: 700;
   border-radius: 4px;
+  font-family: 'Share Tech Mono', monospace;
 }
 .decimal-box {
   width: 16px;
@@ -159,15 +186,18 @@ button[type="submit"]:hover {
   color: #fff;
 }
 .unit-box {
-  background: #fff;
-  color: #000;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
   padding: 4px 8px;
   border-radius: 4px;
   margin-left: 6px;
   font-weight: 700;
 }
 
-/* ---------- Meter mode: hide text input ---------- */
+/* ---------- Meter mode ---------- */
+body.meter-mode {
+  font-family: 'Share Tech Mono', monospace;
+}
 body.meter-mode input[type="text"] {
   position: absolute;
   opacity: 0;
