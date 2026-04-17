@@ -210,3 +210,8 @@ body.meter-mode input[type="text"] {
   .digit-box { width: 26px; height: 40px; font-size: 1.1em; }
   .meter-display { gap: 2px; }
 }
+
+#daily-slider {
+  width: 100%;
+  box-sizing: border-box;
+}
