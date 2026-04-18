@@ -302,21 +302,13 @@ input[type="range"] {
   height: 4px;
   cursor: pointer;
 }
-input[type="number"] {
-  width: 52px;
-  background: rgba(0,0,0,0.3);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 7px;
-  padding: 7px 6px;
+.slider-val {
+  font-size: 15px;
+  font-weight: 700;
   color: #fff;
-  font-size: 13px;
-  font-family: 'Share Tech Mono', monospace;
+  min-width: 36px;
   text-align: center;
   flex-shrink: 0;
-}
-input[type="number"]:focus {
-  outline: none;
-  border-color: rgba(255,255,255,0.6);
 }
 .unit-label {
   font-size: 12px;
