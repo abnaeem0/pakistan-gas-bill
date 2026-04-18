@@ -95,7 +95,7 @@ h1 {
 /* ---------- Readings grid ---------- */
 .readings-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 14px;
   margin-bottom: 14px;
 }
@@ -141,14 +141,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   overflow-x: auto;
 }
 .digit-box {
-  width: 24px;
-  height: 38px;
+  width: 20px;
+  height: 34px;
   background: #111;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 700;
   border-radius: 3px;
   font-family: 'Share Tech Mono', monospace;
@@ -156,8 +156,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .digit-box.red { background: #c40000; }
 .decimal-box {
-  width: 12px;
-  height: 38px;
+  width: 10px;
+  height: 34px;
   background: rgba(255,255,255,0.9);
   color: #000;
   display: flex;
@@ -364,10 +364,12 @@ input[type="range"] {
 .history-empty.hidden { display: none; }
 
 /* ---------- Mobile ---------- */
-@media (max-width: 380px) {
+@media (max-width: 480px) {
   .readings-grid { grid-template-columns: 1fr; }
-  .digit-box { width: 22px; height: 34px; font-size: 14px; }
-  .decimal-box { width: 10px; height: 34px; }
+  .digit-box { width: 24px; height: 38px; font-size: 15px; }
+  .decimal-box { width: 12px; height: 38px; }
+}
+@media (max-width: 360px) {
   h1 { font-size: 15px; }
   .toggle-opt { padding: 5px 8px; font-size: 10px; }
 }
