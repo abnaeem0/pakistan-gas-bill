@@ -26,7 +26,7 @@
       </div>
     </div>
 
-    <!-- Readings card -->
+    <!-- 1. Readings card -->
     <div class="card" id="readings-card">
       <div class="card-label">Meter readings</div>
       <div class="readings-grid">
@@ -46,43 +46,41 @@
       <button id="calc-btn">Calculate</button>
     </div>
 
-    <!-- Bill result card -->
-    <div class="card hidden" id="result-card">
+    <!-- 2. Usage summary card -->
+    <div class="card hidden" id="usage-card">
       <div class="card-label">Your usage this period</div>
       <div class="usage-big" id="usage-display">— m³</div>
       <div class="usage-sub" id="usage-sub">— days · — m³/day average</div>
+    </div>
 
-      <div class="divider"></div>
-
+    <!-- 3. Bill result card -->
+    <div class="card hidden" id="result-card">
+      <div class="card-label">Your bill this period</div>
       <div class="bill-row"><span>Gas charges</span><span id="r-gas">—</span></div>
       <div class="bill-row"><span>Fixed charges</span><span id="r-fixed">—</span></div>
       <div class="bill-row"><span id="r-gst-label">GST</span><span id="r-gst">—</span></div>
       <div class="bill-row total"><span>Estimated bill</span><span id="r-total">—</span></div>
-
       <button class="collapse-btn" id="slab-toggle">▶ Show slab breakdown</button>
       <div class="slab-breakdown hidden" id="slab-breakdown"></div>
     </div>
 
-    <!-- What-if card -->
+    <!-- 4. What-if card -->
     <div class="card hidden" id="whatif-card">
       <div class="card-label">What if my usage changes?</div>
       <div class="actual-avg" id="actual-avg">Your actual avg: — m³/day</div>
-
       <div class="slider-row">
         <button class="adj-btn" id="minus-btn">−</button>
         <input type="range" id="daily-slider" min="0" max="50" step="0.5" value="0">
         <button class="adj-btn" id="plus-btn">+</button>
-        <input type="number" id="daily-input" min="0" max="50" step="0.5" value="0">
+        <span class="slider-val" id="slider-val">—</span>
         <span class="unit-label">m³/day</span>
       </div>
-
       <div class="delta-box" id="delta-box"></div>
-
-      <div class="slab-breakdown hidden" id="whatif-slab"></div>
       <button class="collapse-btn hidden" id="whatif-slab-toggle">▶ Show slab breakdown</button>
+      <div class="slab-breakdown hidden" id="whatif-slab"></div>
     </div>
 
-    <!-- History card -->
+    <!-- 5. History card -->
     <div class="card" id="history-card">
       <div class="card-label">History</div>
       <ul id="history-list"></ul>
@@ -90,7 +88,6 @@
     </div>
 
   </div>
-
   <script type="module" src="js/app.js"></script>
 </body>
 </html>
