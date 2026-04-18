@@ -28,88 +28,81 @@ function slabHTML(breakdown) {
 
 /* ---------- Render bill result ---------- */
 export function renderBill(result, usageM3, days, dailyAvg) {
+  const usageCard = document.getElementById('usage-card');
   const resultCard = document.getElementById('result-card');
   const whatifCard = document.getElementById('whatif-card');
 
   if (!result) {
+    usageCard.classList.add('hidden');
     resultCard.classList.add('hidden');
     return;
   }
 
-  // Usage summary
+  // Usage card
   document.getElementById('usage-display').textContent = `${fmt(usageM3)} m³`;
   document.getElementById('usage-sub').textContent =
     `${days} day${days !== 1 ? 's' : ''} · ${dailyAvg.toFixed(1)} m³/day average`;
+  usageCard.classList.remove('hidden');
 
-  // Charges
+  // Bill card
   document.getElementById('r-gas').textContent = `Rs ${fmt(result.gasCharges)}`;
   document.getElementById('r-fixed').textContent = `Rs ${fmt(result.fixedCharges)}`;
-
   const gst = (parseFloat(result.total) - parseFloat(result.totalBeforeGST)).toFixed(0);
   document.getElementById('r-gst-label').textContent = `GST (17%)`;
   document.getElementById('r-gst').textContent = `Rs ${fmt(gst)}`;
   document.getElementById('r-total').textContent = `Rs ${fmt(result.total)}`;
-
-  // Slab breakdown
   document.getElementById('slab-breakdown').innerHTML = slabHTML(result.slabBreakdown);
-
   resultCard.classList.remove('hidden');
+
   whatifCard.classList.remove('hidden');
 }
 
-/* ---------- Slab toggle ---------- */
+/* ---------- Slab toggles ---------- */
 export function setupSlabToggle() {
-  const btn = document.getElementById('slab-toggle');
-  const panel = document.getElementById('slab-breakdown');
-  if (!btn || !panel) return;
-
-  btn.addEventListener('click', () => {
-    const open = !panel.classList.contains('hidden');
-    panel.classList.toggle('hidden', open);
-    btn.textContent = open ? '▶ Show slab breakdown' : '▼ Hide slab breakdown';
-  });
-
-  const btn2 = document.getElementById('whatif-slab-toggle');
-  const panel2 = document.getElementById('whatif-slab');
-  if (!btn2 || !panel2) return;
-
-  btn2.addEventListener('click', () => {
-    const open = !panel2.classList.contains('hidden');
-    panel2.classList.toggle('hidden', open);
-    btn2.textContent = open ? '▶ Show slab breakdown' : '▼ Hide slab breakdown';
+  [['slab-toggle', 'slab-breakdown'], ['whatif-slab-toggle', 'whatif-slab']].forEach(([btnId, panelId]) => {
+    const btn = document.getElementById(btnId);
+    const panel = document.getElementById(panelId);
+    if (!btn || !panel) return;
+    btn.classList.remove('hidden');
+    // Reset state
+    panel.classList.add('hidden');
+    btn.textContent = '▶ Show slab breakdown';
+    btn.onclick = () => {
+      const open = !panel.classList.contains('hidden');
+      panel.classList.toggle('hidden', open);
+      btn.textContent = open ? '▶ Show slab breakdown' : '▼ Hide slab breakdown';
+    };
   });
 }
 
 /* ---------- What-if slider ---------- */
 export function setupSlider(dailyAvg, totalConsumedM3, daysRemaining, userType) {
   const slider = document.getElementById('daily-slider');
-  const numInput = document.getElementById('daily-input');
+  const sliderVal = document.getElementById('slider-val');
   const minusBtn = document.getElementById('minus-btn');
   const plusBtn = document.getElementById('plus-btn');
   const deltaBox = document.getElementById('delta-box');
   const whatifSlab = document.getElementById('whatif-slab');
-  const whatifSlabToggle = document.getElementById('whatif-slab-toggle');
   const actualAvg = document.getElementById('actual-avg');
 
-  actualAvg.textContent = `Your actual avg: ${dailyAvg.toFixed(1)} m³/day (fixed)`;
+  actualAvg.textContent = `Your actual avg: ${dailyAvg.toFixed(1)} m³/day`;
 
-  // Set slider to actual avg as starting point
   slider.value = dailyAvg;
-  numInput.value = dailyAvg.toFixed(1);
+  sliderVal.textContent = dailyAvg.toFixed(1);
 
-  // Get current bill for delta comparison
+  // Base bill at actual avg for delta comparison
   const baseBill = parseFloat(
     calculateBill(userType, totalConsumedM3 + dailyAvg * daysRemaining).total
   );
 
   function update(val) {
-    val = Math.max(0, Math.min(50, parseFloat(val) || 0));
+    val = Math.max(0, Math.min(50, Math.round(parseFloat(val) * 2) / 2)); // snap to 0.5
     slider.value = val;
-    numInput.value = val.toFixed(1);
+    sliderVal.textContent = val.toFixed(1);
 
     if (daysRemaining <= 0) {
       deltaBox.className = 'delta-box same';
-      deltaBox.textContent = 'Billing period is complete.';
+      deltaBox.textContent = 'Billing period complete — no days remaining.';
       return;
     }
 
@@ -118,14 +111,15 @@ export function setupSlider(dailyAvg, totalConsumedM3, daysRemaining, userType) 
       const result = calculateBill(userType, projectedM3);
       const projectedBill = parseFloat(result.total);
       const diff = projectedBill - baseBill;
-      const sign = diff > 0 ? '+' : '';
+      const sign = diff > 0 ? '+' : diff < 0 ? '−' : '';
+      const absDiff = Math.abs(diff);
 
       deltaBox.className = diff > 0 ? 'delta-box up' : diff < 0 ? 'delta-box down' : 'delta-box same';
-      deltaBox.textContent =
-        `${val.toFixed(1)} m³/day · est. bill Rs ${fmt(projectedBill)} · ${sign}Rs ${fmt(Math.abs(diff))}`;
+      deltaBox.textContent = diff === 0
+        ? `Same as current · est. bill Rs ${fmt(projectedBill)}`
+        : `${val.toFixed(1)} m³/day · est. bill Rs ${fmt(projectedBill)} · ${sign}Rs ${fmt(absDiff)} vs current`;
 
       whatifSlab.innerHTML = slabHTML(result.slabBreakdown);
-      whatifSlabToggle.classList.remove('hidden');
     } catch (err) {
       deltaBox.className = 'delta-box';
       deltaBox.textContent = 'Error calculating.';
@@ -133,9 +127,8 @@ export function setupSlider(dailyAvg, totalConsumedM3, daysRemaining, userType) 
   }
 
   slider.addEventListener('input', () => update(slider.value));
-  numInput.addEventListener('input', () => update(numInput.value));
-  minusBtn.addEventListener('click', () => update((parseFloat(numInput.value) - 0.5).toFixed(1)));
-  plusBtn.addEventListener('click', () => update((parseFloat(numInput.value) + 0.5).toFixed(1)));
+  minusBtn.addEventListener('click', () => update(parseFloat(slider.value) - 0.5));
+  plusBtn.addEventListener('click', () => update(parseFloat(slider.value) + 0.5));
 
   update(dailyAvg);
 }
@@ -173,13 +166,9 @@ function fillFormFromHistory(h) {
   document.getElementById('prev-value').value = h.prevValue;
   document.getElementById('curr-date').value = h.currDate;
   document.getElementById('curr-value').value = h.currValue;
-
-  // Update toggle pill
   document.querySelectorAll('.toggle-opt').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.value === h.userType);
   });
-
-  // Re-render meters
   if (window.renderMeter) {
     window.renderMeter('prev-meter', h.prevValue);
     window.renderMeter('curr-meter', h.currValue);
