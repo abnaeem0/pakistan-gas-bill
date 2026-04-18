@@ -28,20 +28,53 @@
 
     <!-- 1. Readings card -->
     <div class="card" id="readings-card">
-      <div class="card-label">Meter readings</div>
+
+      <div class="meter-instruction">
+        <div class="meter-instruction-meter">
+          <div class="mi-box black">0</div>
+          <div class="mi-box black">0</div>
+          <div class="mi-box black">0</div>
+          <div class="mi-box black">0</div>
+          <div class="mi-box black">0</div>
+          <div class="mi-sep">.</div>
+          <div class="mi-box red-dim">0</div>
+          <div class="mi-box red-dim">0</div>
+          <div class="mi-box red-dim">0</div>
+        </div>
+        <div class="meter-instruction-labels">
+          <div class="mi-label-enter">Enter these 5</div>
+          <div class="mi-label-ignore">Ignore these 3</div>
+        </div>
+      </div>
+
       <div class="readings-grid">
+
         <div class="reading-col">
-          <div class="reading-label">Previous</div>
-          <input type="date" id="prev-date" required>
-          <input type="text" id="prev-value" inputmode="numeric" placeholder="00000" autocomplete="off">
+          <div class="step-label"><span class="step-num">①</span> Previous reading</div>
+          <div class="field-group">
+            <div class="field-label">Reading date</div>
+            <input type="date" id="prev-date" required>
+          </div>
+          <div class="field-group">
+            <div class="field-label">Black digits (m³)</div>
+            <input type="text" id="prev-value" inputmode="numeric" placeholder="e.g. 400" autocomplete="off">
+          </div>
           <div class="meter-display" id="prev-meter"></div>
         </div>
+
         <div class="reading-col">
-          <div class="reading-label">Current</div>
-          <input type="date" id="curr-date" required>
-          <input type="text" id="curr-value" inputmode="numeric" placeholder="00000" autocomplete="off">
+          <div class="step-label"><span class="step-num">②</span> Current reading</div>
+          <div class="field-group">
+            <div class="field-label">Reading date</div>
+            <input type="date" id="curr-date" required>
+          </div>
+          <div class="field-group">
+            <div class="field-label">Black digits (m³)</div>
+            <input type="text" id="curr-value" inputmode="numeric" placeholder="e.g. 500" autocomplete="off">
+          </div>
           <div class="meter-display" id="curr-meter"></div>
         </div>
+
       </div>
       <button id="calc-btn">Calculate</button>
     </div>
