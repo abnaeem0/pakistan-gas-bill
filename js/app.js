@@ -3,6 +3,7 @@ import { renderBill, setupSlider, setupSlabToggle, saveHistory, renderHistory } 
 
 /* ---------- State ---------- */
 let userType = 'protected';
+let lastCalcState = null; // store inputs so toggle can recalculate
 
 /* ---------- Helpers ---------- */
 function daysBetween(d1, d2) {
@@ -53,8 +54,26 @@ export function renderMeter(id, value) {
   container.appendChild(unit);
 }
 
-// Expose for ui.js fillFormFromHistory
 window.renderMeter = renderMeter;
+
+/* ---------- Core calculate function ---------- */
+function runCalculation() {
+  if (!lastCalcState) return;
+  const { prevDate, currDate, prevValue, currValue } = lastCalcState;
+
+  const usageM3 = currValue - prevValue;
+  const days = daysBetween(prevDate, currDate);
+  const dailyAvg = usageM3 / days;
+  const daysRemaining = Math.max(30 - days, 0);
+
+  // Always project to a full 30-day cycle at current daily rate
+  const projectedM3 = dailyAvg * 30;
+  const billResult = calculateBill(userType, projectedM3);
+
+  renderBill(billResult, usageM3, days, dailyAvg);
+  setupSlider(dailyAvg, usageM3, daysRemaining, userType);
+  setupSlabToggle();
+}
 
 /* ---------- User type toggle ---------- */
 document.querySelectorAll('.toggle-opt').forEach(btn => {
@@ -63,10 +82,10 @@ document.querySelectorAll('.toggle-opt').forEach(btn => {
     btn.classList.add('active');
     userType = btn.dataset.value;
     localStorage.setItem('userType', userType);
+    runCalculation(); // recalculate if we already have results
   });
 });
 
-// Restore saved user type
 const savedType = localStorage.getItem('userType');
 if (savedType) {
   userType = savedType;
@@ -79,11 +98,7 @@ if (savedType) {
 ['prev-value', 'curr-value'].forEach(id => {
   const el = document.getElementById(id);
   if (!el) return;
-
-  el.addEventListener('input', () => {
-    el.value = cleanReading(el.value);
-  });
-
+  el.addEventListener('input', () => { el.value = cleanReading(el.value); });
   el.addEventListener('blur', () => {
     el.value = cleanReading(el.value);
     renderMeter(id.replace('value', 'meter'), el.value);
@@ -100,28 +115,18 @@ function autofillDates() {
   if (!history.length) return;
 
   const lastPrevDate = new Date(history[0].prevDate);
-  let autofillDate = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    lastPrevDate.getDate() + 1
-  );
-
-  if (autofillDate > today) {
-    autofillDate.setMonth(autofillDate.getMonth() - 1);
-  }
+  let autofillDate = new Date(today.getFullYear(), today.getMonth(), lastPrevDate.getDate() + 1);
+  if (autofillDate > today) autofillDate.setMonth(autofillDate.getMonth() - 1);
 
   const prevDateInput = document.getElementById('prev-date');
-  if (prevDateInput && !prevDateInput.value) {
-    prevDateInput.valueAsDate = autofillDate;
-  }
+  if (prevDateInput && !prevDateInput.value) prevDateInput.valueAsDate = autofillDate;
 }
 
-/* ---------- Calculate ---------- */
+/* ---------- Calculate button ---------- */
 document.getElementById('calc-btn').addEventListener('click', () => {
   try {
     const prevDate = document.getElementById('prev-date').value;
     const currDate = document.getElementById('curr-date').value;
-
     const prevValue = parseInt(cleanReading(document.getElementById('prev-value').value), 10);
     const currValue = parseInt(cleanReading(document.getElementById('curr-value').value), 10);
 
@@ -131,30 +136,18 @@ document.getElementById('calc-btn').addEventListener('click', () => {
       if (!confirm('Current reading is lower than previous — continue anyway?')) return;
     }
 
+    // Store state so toggle can recalculate
+    lastCalcState = { prevDate, currDate, prevValue, currValue };
+    runCalculation();
+
     const usageM3 = currValue - prevValue;
     const days = daysBetween(prevDate, currDate);
     const dailyAvg = usageM3 / days;
     const daysRemaining = Math.max(30 - days, 0);
-
-    // Project bill at current daily rate for the full remaining period
-    const projectedM3 = usageM3 + dailyAvg * daysRemaining;
+    const projectedM3 = dailyAvg * 30;
     const billResult = calculateBill(userType, projectedM3);
 
-    renderBill(billResult, usageM3, days, dailyAvg);
-    setupSlider(dailyAvg, usageM3, daysRemaining, userType);
-    setupSlabToggle();
-
-    saveHistory({
-      prevDate,
-      prevValue,
-      currDate,
-      currValue,
-      userType,
-      dailyAvg,
-      total: billResult.total
-    });
-
-    // Scroll to results
+    saveHistory({ prevDate, prevValue, currDate, currValue, userType, dailyAvg, total: billResult.total });
     document.getElementById('usage-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   } catch (err) {
