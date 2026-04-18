@@ -1,10 +1,10 @@
 import { calculateBill } from './calculator.js';
-import { renderBill, setupSlider, saveHistory, renderHistory } from './ui.js';
+import { renderBill, setupSlider, setupSlabToggle, saveHistory, renderHistory } from './ui.js';
 
-const form = document.getElementById('bill-form');
+/* ---------- State ---------- */
+let userType = 'protected';
 
 /* ---------- Helpers ---------- */
-
 function daysBetween(d1, d2) {
   return Math.max(
     Math.ceil((new Date(d2) - new Date(d1)) / (1000 * 60 * 60 * 24)),
@@ -21,15 +21,13 @@ function formatReading(val) {
 }
 
 /* ---------- Meter Renderer ---------- */
-
-function renderMeter(id, value) {
+export function renderMeter(id, value) {
   const container = document.getElementById(id);
   if (!container) return;
 
   const digits = formatReading(value).split('');
   container.innerHTML = '';
 
-  // 5 main digits
   digits.forEach(d => {
     const el = document.createElement('div');
     el.className = 'digit-box';
@@ -37,13 +35,11 @@ function renderMeter(id, value) {
     container.appendChild(el);
   });
 
-  // decimal separator
   const decimal = document.createElement('div');
   decimal.className = 'decimal-box';
   decimal.textContent = '.';
   container.appendChild(decimal);
 
-  // 3 red digits (fixed visual)
   ['0', '0', '0'].forEach(d => {
     const el = document.createElement('div');
     el.className = 'digit-box red';
@@ -51,56 +47,35 @@ function renderMeter(id, value) {
     container.appendChild(el);
   });
 
-  // unit
   const unit = document.createElement('div');
   unit.className = 'unit-box';
   unit.textContent = 'm³';
   container.appendChild(unit);
 }
 
-/* ---------- Usage Logic ---------- */
+// Expose for ui.js fillFormFromHistory
+window.renderMeter = renderMeter;
 
-function computeUsage(prevDate, prevValue, currDate, currValue) {
-  const usageM3 = currValue - prevValue;
-  const days = daysBetween(prevDate, currDate);
-  const dailyAvg = usageM3 / days;
+/* ---------- User type toggle ---------- */
+document.querySelectorAll('.toggle-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.toggle-opt').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    userType = btn.dataset.value;
+    localStorage.setItem('userType', userType);
+  });
+});
 
-  const projectedM3 = dailyAvg * days; // dynamic cycle
-
-  return { usageM3, dailyAvg, projectedM3, days };
+// Restore saved user type
+const savedType = localStorage.getItem('userType');
+if (savedType) {
+  userType = savedType;
+  document.querySelectorAll('.toggle-opt').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.value === savedType);
+  });
 }
 
-/* ---------- Autofill ---------- */
-
-function autofillPrevDate() {
-  const today = new Date();
-
-  const currDateInput = document.getElementById('curr-date');
-  if (currDateInput) currDateInput.valueAsDate = today;
-
-  const userTypeInput = document.getElementById('user-type');
-  if (userTypeInput) userTypeInput.value = 'nonProtected';
-
-  const history = JSON.parse(localStorage.getItem('gasHistory') || '[]');
-  if (!history.length) return;
-
-  const lastPrevDate = new Date(history[0].prevDate);
-
-  let autofillDate = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    lastPrevDate.getDate() + 1
-  );
-
-  if (autofillDate > today) {
-    autofillDate.setMonth(autofillDate.getMonth() - 1);
-  }
-
-  document.getElementById('prev-date').valueAsDate = autofillDate;
-}
-
-/* ---------- Input Handling ---------- */
-
+/* ---------- Input handling ---------- */
 ['prev-value', 'curr-value'].forEach(id => {
   const el = document.getElementById(id);
   if (!el) return;
@@ -115,11 +90,34 @@ function autofillPrevDate() {
   });
 });
 
-/* ---------- Submit ---------- */
+/* ---------- Autofill ---------- */
+function autofillDates() {
+  const today = new Date();
+  const currDateInput = document.getElementById('curr-date');
+  if (currDateInput && !currDateInput.value) currDateInput.valueAsDate = today;
 
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
+  const history = JSON.parse(localStorage.getItem('gasHistory') || '[]');
+  if (!history.length) return;
 
+  const lastPrevDate = new Date(history[0].prevDate);
+  let autofillDate = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    lastPrevDate.getDate() + 1
+  );
+
+  if (autofillDate > today) {
+    autofillDate.setMonth(autofillDate.getMonth() - 1);
+  }
+
+  const prevDateInput = document.getElementById('prev-date');
+  if (prevDateInput && !prevDateInput.value) {
+    prevDateInput.valueAsDate = autofillDate;
+  }
+}
+
+/* ---------- Calculate ---------- */
+document.getElementById('calc-btn').addEventListener('click', () => {
   try {
     const prevDate = document.getElementById('prev-date').value;
     const currDate = document.getElementById('curr-date').value;
@@ -127,27 +125,22 @@ form.addEventListener('submit', (e) => {
     const prevValue = parseInt(cleanReading(document.getElementById('prev-value').value), 10);
     const currValue = parseInt(cleanReading(document.getElementById('curr-value').value), 10);
 
-    const userType = document.getElementById('user-type').value;
-
-    if (!prevDate || !currDate) {
-      throw new Error("Please enter both dates.");
-    }
-
-    if (isNaN(prevValue) || isNaN(currValue)) {
-      throw new Error("Invalid readings.");
-    }
-
+    if (!prevDate || !currDate) throw new Error('Please enter both dates.');
+    if (isNaN(prevValue) || isNaN(currValue)) throw new Error('Please enter both meter readings.');
     if (currValue < prevValue) {
-      alert("Warning: current reading is lower than previous.");
+      if (!confirm('Current reading is lower than previous — continue anyway?')) return;
     }
 
-    const { usageM3, dailyAvg, projectedM3, days } =
-      computeUsage(prevDate, prevValue, currDate, currValue);
+    const usageM3 = currValue - prevValue;
+    const days = daysBetween(prevDate, currDate);
+    const dailyAvg = usageM3 / days;
+    const daysRemaining = Math.max(30 - days, 0);
 
-    const billResult = calculateBill(userType, projectedM3);
+    const billResult = calculateBill(userType, usageM3);
 
-    renderBill(billResult);
-    setupSlider(dailyAvg, usageM3, Math.max(30 - days, 0), userType);
+    renderBill(billResult, usageM3, days, dailyAvg);
+    setupSlider(dailyAvg, usageM3, daysRemaining, userType);
+    setupSlabToggle();
 
     saveHistory({
       prevDate,
@@ -159,34 +152,16 @@ form.addEventListener('submit', (e) => {
       total: billResult.total
     });
 
+    // Scroll to results
+    document.getElementById('result-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
   } catch (err) {
     alert(err.message);
   }
 });
 
-/* ---------- Toggle Meter Mode ---------- */
-
-const toggleBtn = document.getElementById('meter-toggle');
-
-if (localStorage.getItem('meterMode') === 'on') {
-  document.body.classList.add('meter-mode');
-}
-
-if (toggleBtn) {
-  toggleBtn.addEventListener('click', () => {
-    document.body.classList.toggle('meter-mode');
-
-    localStorage.setItem(
-      'meterMode',
-      document.body.classList.contains('meter-mode') ? 'on' : 'off'
-    );
-  });
-}
-
 /* ---------- Init ---------- */
-
-autofillPrevDate();
+autofillDates();
 renderHistory();
-
 renderMeter('prev-meter', '');
 renderMeter('curr-meter', '');
