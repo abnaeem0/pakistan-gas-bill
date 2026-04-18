@@ -1,217 +1,381 @@
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
 /* ---------- Base ---------- */
+* { box-sizing: border-box; }
+
 body {
   font-family: 'Share Tech Mono', monospace;
   margin: 0;
   padding: 16px;
   background: #03709b;
-  color: #222;
-  min-height: 100vh;
-}
-
-/* ---------- Nav ---------- */
-nav {
-  max-width: 480px;
-  margin: 0 auto 12px;
-  display: flex;
-  gap: 16px;
-}
-nav a {
-  color: rgba(255,255,255,0.85);
-  text-decoration: none;
-  font-size: 0.9em;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-}
-nav a:hover {
   color: #fff;
-  text-decoration: underline;
+  min-height: 100vh;
 }
 
 /* ---------- Container ---------- */
 .container {
   max-width: 480px;
-  margin: auto;
-  background: #03709b;
-  padding: 20px;
-  border-radius: 14px;
+  margin: 0 auto;
 }
 
-/* ---------- Layout spacing ---------- */
-form div {
+/* ---------- Nav ---------- */
+nav {
+  display: flex;
+  gap: 16px;
   margin-bottom: 14px;
 }
-label {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 0.85em;
-  color: rgba(255,255,255,0.75);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+nav a {
+  color: rgba(255,255,255,0.65);
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+nav a:hover { color: #fff; }
+
+/* ---------- Top row ---------- */
+.top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  gap: 10px;
 }
 h1 {
-  margin-bottom: 12px;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
   color: #fff;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
 }
-h2 {
-  color: rgba(255,255,255,0.85);
-  font-size: 0.95em;
-  margin-bottom: 8px;
-  letter-spacing: 0.04em;
+
+/* ---------- User type toggle ---------- */
+.toggle-pill {
+  display: flex;
+  background: rgba(0,0,0,0.25);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.toggle-opt {
+  padding: 5px 11px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-family: 'Share Tech Mono', monospace;
+  color: rgba(255,255,255,0.5);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: background 0.15s, color 0.15s;
+}
+.toggle-opt.active {
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: rgba(0,0,0,0.25);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.card.hidden { display: none; }
+
+.card-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+/* ---------- Readings grid ---------- */
+.readings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.reading-col { display: flex; flex-direction: column; gap: 6px; }
+.reading-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.07em;
   text-transform: uppercase;
 }
 
 /* ---------- Inputs ---------- */
 input[type="date"],
-input[type="text"],
-select {
+input[type="text"] {
   width: 100%;
-  box-sizing: border-box;
-  padding: 8px 10px;
-  border: 1.5px solid rgba(255,255,255,0.25);
+  padding: 7px 10px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.18);
   border-radius: 7px;
-  font-size: 0.95em;
-  font-family: 'Share Tech Mono', monospace;
-  background: rgba(0,0,0,0.25);
   color: #fff;
-  margin-top: 4px;
+  font-size: 13px;
+  font-family: 'Share Tech Mono', monospace;
   transition: border-color 0.2s;
 }
-input:focus,
-select:focus {
+input[type="date"]:focus,
+input[type="text"]:focus {
   outline: none;
-  border-color: rgba(255,255,255,0.7);
-  background: rgba(0,0,0,0.35);
-}
-select option {
-  background: #025a7c;
-  color: #fff;
-}
-
-/* ---------- Buttons ---------- */
-#meter-toggle,
-button[type="submit"] {
-  background: rgba(0,0,0,0.3);
-  color: #fff;
-  border: 1.5px solid rgba(255,255,255,0.3);
-  padding: 10px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.95em;
-  font-family: 'Share Tech Mono', monospace;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  transition: background 0.18s, border-color 0.18s;
-}
-#meter-toggle {
-  margin-bottom: 14px;
-}
-button[type="submit"] {
-  width: 100%;
-  padding: 11px;
-  font-size: 1em;
-  margin-top: 4px;
-}
-#meter-toggle:hover,
-button[type="submit"]:hover {
-  background: rgba(0,0,0,0.45);
   border-color: rgba(255,255,255,0.6);
 }
-
-/* ---------- Results / History sections ---------- */
-#results,
-#slider-container,
-#history-container {
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255,255,255,0.15);
-  color: #fff;
-}
-#bill-summary,
-#slider-bill,
-#history-list {
-  font-family: 'Share Tech Mono', monospace;
-  color: #fff;
-}
-#history-list {
-  padding-left: 16px;
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) opacity(0.5);
+  cursor: pointer;
 }
 
-/* ---------- Slider ---------- */
-#slider-value,
-#slider-marker {
-  color: rgba(255,255,255,0.8);
-  font-size: 0.9em;
-}
-
-/* ---------- Meter block ---------- */
+/* ---------- Meter display ---------- */
 .meter-display {
   display: flex;
   align-items: center;
-  gap: 3px;
-  padding: 10px;
-  margin-top: 6px;
+  gap: 2px;
+  padding: 8px 6px;
   background: rgba(0,0,0,0.2);
-  border-radius: 10px;
+  border-radius: 8px;
   overflow-x: auto;
 }
 .digit-box {
-  width: 30px;
-  height: 44px;
-  background: #000;
+  width: 24px;
+  height: 38px;
+  background: #111;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3em;
+  font-size: 16px;
   font-weight: 700;
-  border-radius: 4px;
+  border-radius: 3px;
   font-family: 'Share Tech Mono', monospace;
+  flex-shrink: 0;
 }
+.digit-box.red { background: #c40000; }
 .decimal-box {
-  width: 16px;
-  height: 44px;
-  background: #fff;
+  width: 12px;
+  height: 38px;
+  background: rgba(255,255,255,0.9);
   color: #000;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  border-radius: 4px;
-}
-.digit-box.red {
-  background: #c40000;
-  color: #fff;
+  border-radius: 3px;
+  font-size: 14px;
+  flex-shrink: 0;
 }
 .unit-box {
-  background: rgba(255,255,255,0.15);
-  color: #fff;
-  padding: 4px 8px;
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.75);
+  padding: 3px 6px;
   border-radius: 4px;
-  margin-left: 6px;
+  margin-left: 4px;
+  font-size: 11px;
   font-weight: 700;
+  flex-shrink: 0;
 }
 
-/* ---------- Meter mode ---------- */
-body.meter-mode {
+/* ---------- Calculate button ---------- */
+#calc-btn {
+  width: 100%;
+  padding: 10px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
   font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s;
 }
-body.meter-mode input[type="text"] {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
+#calc-btn:hover {
+  background: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.5);
 }
+
+/* ---------- Result card ---------- */
+.usage-big {
+  font-size: 30px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+.usage-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  margin-top: 3px;
+  margin-bottom: 4px;
+}
+.divider {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin: 12px 0;
+}
+.bill-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  padding: 3px 0;
+}
+.bill-row.total {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  padding-top: 10px;
+  margin-top: 6px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+/* ---------- Collapse button ---------- */
+.collapse-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  font-size: 11px;
+  font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 8px 0 0;
+  display: block;
+}
+.collapse-btn:hover { color: rgba(255,255,255,0.7); }
+.collapse-btn.hidden { display: none; }
+
+/* ---------- Slab breakdown ---------- */
+.slab-breakdown {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.slab-breakdown.hidden { display: none; }
+.slab-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  padding: 3px 0;
+}
+.slab-row span:last-child { color: rgba(255,255,255,0.75); }
+
+/* ---------- What-if card ---------- */
+.actual-avg {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 12px;
+}
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.adj-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  font-size: 22px;
+  font-family: 'Share Tech Mono', monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s;
+  line-height: 1;
+  padding: 0;
+}
+.adj-btn:hover { background: rgba(0,0,0,0.5); }
+
+input[type="range"] {
+  flex: 1;
+  accent-color: #fff;
+  height: 4px;
+  cursor: pointer;
+}
+input[type="number"] {
+  width: 52px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 7px;
+  padding: 7px 6px;
+  color: #fff;
+  font-size: 13px;
+  font-family: 'Share Tech Mono', monospace;
+  text-align: center;
+  flex-shrink: 0;
+}
+input[type="number"]:focus {
+  outline: none;
+  border-color: rgba(255,255,255,0.6);
+}
+.unit-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  flex-shrink: 0;
+}
+
+/* ---------- Delta box ---------- */
+.delta-box {
+  font-size: 13px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.65);
+  border: 1px solid rgba(255,255,255,0.12);
+  min-height: 36px;
+}
+.delta-box.up {
+  background: rgba(255,100,100,0.15);
+  color: #ffbbbb;
+  border-color: rgba(255,100,100,0.25);
+}
+.delta-box.down {
+  background: rgba(100,220,160,0.12);
+  color: #88ffcc;
+  border-color: rgba(100,220,160,0.2);
+}
+.delta-box.same {
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.55);
+}
+
+/* ---------- History card ---------- */
+#history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#history-list li {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+#history-list li:last-child { border-bottom: none; }
+#history-list li:hover { color: #fff; }
+.history-empty {
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+}
+.history-empty.hidden { display: none; }
 
 /* ---------- Mobile ---------- */
-@media (max-width: 480px) {
-  .container { padding: 14px; }
-  .digit-box { width: 26px; height: 40px; font-size: 1.1em; }
-  .meter-display { gap: 2px; }
-}
-
-#daily-slider {
-  width: 100%;
-  box-sizing: border-box;
+@media (max-width: 380px) {
+  .readings-grid { grid-template-columns: 1fr; }
+  .digit-box { width: 22px; height: 34px; font-size: 14px; }
+  .decimal-box { width: 10px; height: 34px; }
+  h1 { font-size: 15px; }
+  .toggle-opt { padding: 5px 8px; font-size: 10px; }
 }
