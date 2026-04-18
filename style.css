@@ -373,3 +373,26 @@ input[type="range"] {
   h1 { font-size: 15px; }
   .toggle-opt { padding: 5px 8px; font-size: 10px; }
 }
+
+/* ---------- Slab breakdown extras ---------- */
+.slab-section-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  margin-top: 2px;
+}
+.slab-row.slab-subtotal {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: 6px;
+  padding-top: 6px;
+  color: rgba(255,255,255,0.7);
+}
+.slab-row.slab-total {
+  border-top: 1px solid rgba(255,255,255,0.2);
+  margin-top: 6px;
+  padding-top: 6px;
+  color: #fff;
+  font-weight: 700;
+}
