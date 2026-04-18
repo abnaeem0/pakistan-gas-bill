@@ -41,7 +41,7 @@ export function renderBill(result, usageM3, days, dailyAvg) {
   // Usage card
   document.getElementById('usage-display').textContent = `${fmt(usageM3)} m³`;
   document.getElementById('usage-sub').textContent =
-    `${days} day${days !== 1 ? 's' : ''} · ${dailyAvg.toFixed(1)} m³/day average`;
+    `${days} day${days !== 1 ? 's' : ''} · ${dailyAvg.toFixed(1)} m³/day avg`;
   usageCard.classList.remove('hidden');
 
   // Bill card
