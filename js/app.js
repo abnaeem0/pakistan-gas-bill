@@ -136,7 +136,9 @@ document.getElementById('calc-btn').addEventListener('click', () => {
     const dailyAvg = usageM3 / days;
     const daysRemaining = Math.max(30 - days, 0);
 
-    const billResult = calculateBill(userType, usageM3);
+    // Project bill at current daily rate for the full remaining period
+    const projectedM3 = usageM3 + dailyAvg * daysRemaining;
+    const billResult = calculateBill(userType, projectedM3);
 
     renderBill(billResult, usageM3, days, dailyAvg);
     setupSlider(dailyAvg, usageM3, daysRemaining, userType);
@@ -153,7 +155,7 @@ document.getElementById('calc-btn').addEventListener('click', () => {
     });
 
     // Scroll to results
-    document.getElementById('result-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('usage-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   } catch (err) {
     alert(err.message);
