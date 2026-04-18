@@ -26,13 +26,14 @@ export function renderMeter(id, value) {
   const container = document.getElementById(id);
   if (!container) return;
 
+  const isEmpty = !value || String(value).replace(/\D/g, '') === '';
   const digits = formatReading(value).split('');
   container.innerHTML = '';
 
   digits.forEach(d => {
     const el = document.createElement('div');
-    el.className = 'digit-box';
-    el.textContent = d;
+    el.className = isEmpty ? 'digit-box dimmed' : 'digit-box';
+    el.textContent = isEmpty ? '—' : d;
     container.appendChild(el);
   });
 
@@ -43,7 +44,7 @@ export function renderMeter(id, value) {
 
   ['0', '0', '0'].forEach(d => {
     const el = document.createElement('div');
-    el.className = 'digit-box red';
+    el.className = isEmpty ? 'digit-box red dimmed' : 'digit-box red';
     el.textContent = d;
     container.appendChild(el);
   });
