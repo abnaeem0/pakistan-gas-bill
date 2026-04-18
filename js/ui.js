@@ -26,6 +26,19 @@ function slabHTML(breakdown) {
   ).join('');
 }
 
+function fullBreakdownHTML(result) {
+  const slabs = slabHTML(result.slabBreakdown);
+  const gst = (parseFloat(result.total) - parseFloat(result.totalBeforeGST)).toFixed(0);
+  return `
+    <div class="slab-section-label">Gas charges (by slab)</div>
+    ${slabs}
+    <div class="slab-row slab-subtotal"><span>Gas charges</span><span>Rs ${fmt(result.gasCharges)}</span></div>
+    <div class="slab-row"><span>Fixed charges</span><span>Rs ${fmt(result.fixedCharges)}</span></div>
+    <div class="slab-row"><span>GST (17%)</span><span>Rs ${fmt(gst)}</span></div>
+    <div class="slab-row slab-total"><span>Total</span><span>Rs ${fmt(result.total)}</span></div>
+  `;
+}
+
 /* ---------- Render bill result ---------- */
 export function renderBill(result, usageM3, days, dailyAvg) {
   const usageCard = document.getElementById('usage-card');
@@ -51,7 +64,7 @@ export function renderBill(result, usageM3, days, dailyAvg) {
   document.getElementById('r-gst-label').textContent = `GST (17%)`;
   document.getElementById('r-gst').textContent = `Rs ${fmt(gst)}`;
   document.getElementById('r-total').textContent = `Rs ${fmt(result.total)}`;
-  document.getElementById('slab-breakdown').innerHTML = slabHTML(result.slabBreakdown);
+  document.getElementById('slab-breakdown').innerHTML = fullBreakdownHTML(result);
   resultCard.classList.remove('hidden');
 
   whatifCard.classList.remove('hidden');
@@ -119,7 +132,7 @@ export function setupSlider(dailyAvg, totalConsumedM3, daysRemaining, userType) 
         ? `Same as current · est. bill Rs ${fmt(projectedBill)}`
         : `${val.toFixed(1)} m³/day · est. bill Rs ${fmt(projectedBill)} · ${sign}Rs ${fmt(absDiff)} vs current`;
 
-      whatifSlab.innerHTML = slabHTML(result.slabBreakdown);
+      whatifSlab.innerHTML = fullBreakdownHTML(result);
     } catch (err) {
       deltaBox.className = 'delta-box';
       deltaBox.textContent = 'Error calculating.';
