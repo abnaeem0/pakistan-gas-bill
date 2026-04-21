@@ -16,7 +16,7 @@ body {
 
 /* ---------- Container ---------- */
 .container {
-  max-width: 680px;
+  max-width: 900px;
   margin: 0 auto;
   width: 100%;
 }
@@ -542,13 +542,14 @@ input[type="range"] {
   .adj-btn { width: 38px; height: 38px; font-size: 22px; }
 }
 
-/* --- Tablet / desktop: 600px+ --- */
+/* --- Tablet: 600px+ --- */
 @media (min-width: 600px) {
   body { padding: 24px; }
 
   h1 { font-size: 20px; }
 
   .card { padding: 20px 22px; margin-bottom: 14px; }
+  .card-label { font-size: 12px; }
 
   .readings-grid { gap: 18px; margin-bottom: 16px; }
 
@@ -558,6 +559,7 @@ input[type="range"] {
   #calc-btn { font-size: 14px; padding: 12px; }
 
   .usage-big { font-size: 36px; }
+  .usage-sub { font-size: 14px; }
   .bill-row { font-size: 14px; }
   .bill-row.total { font-size: 18px; }
 
@@ -565,10 +567,71 @@ input[type="range"] {
   .decimal-box { width: 11px; height: 36px; }
 }
 
-/* --- Wide desktop: 720px+ --- */
-@media (min-width: 720px) {
-  body { padding: 32px 24px; }
-  h1 { font-size: 22px; }
-  .card { padding: 22px 26px; }
-  .readings-grid { gap: 22px; }
+/* --- Desktop: 800px+ --- */
+@media (min-width: 800px) {
+  body { padding: 40px 32px; }
+
+  nav a { font-size: 14px; }
+  nav { margin-bottom: 18px; gap: 20px; }
+
+  h1 { font-size: 26px; letter-spacing: 0.04em; }
+
+  .toggle-opt { padding: 7px 16px; font-size: 13px; }
+
+  .card { padding: 26px 28px; margin-bottom: 16px; border-radius: 16px; }
+  .card-label { font-size: 12px; margin-bottom: 14px; letter-spacing: 0.1em; }
+
+  .step-label { font-size: 15px; margin-bottom: 10px; }
+  .step-num { font-size: 18px; }
+  .field-label { font-size: 11px; }
+
+  .readings-grid { gap: 28px; margin-bottom: 20px; }
+
+  input[type="date"],
+  input[type="text"] { font-size: 15px; padding: 10px 13px; border-radius: 9px; }
+
+  #calc-btn { font-size: 16px; padding: 14px; border-radius: 10px; letter-spacing: 0.07em; }
+
+  .meter-instruction { padding: 14px 16px; margin-bottom: 20px; }
+  .mi-box { width: 28px; height: 40px; font-size: 16px; }
+  .mi-sep { width: 13px; height: 40px; font-size: 16px; }
+  .meter-instruction-labels { font-size: 11px; }
+  .mi-label-enter { width: 152px; }
+
+  .digit-box { width: 28px; height: 44px; font-size: 17px; border-radius: 4px; }
+  .decimal-box { width: 14px; height: 44px; font-size: 17px; }
+  .unit-box { font-size: 12px; padding: 3px 7px; }
+  .meter-display { padding: 9px 8px; border-radius: 10px; }
+
+  .usage-big { font-size: 48px; }
+  .usage-sub { font-size: 15px; margin-top: 5px; }
+
+  .bill-row { font-size: 15px; padding: 5px 0; }
+  .bill-row.total { font-size: 20px; padding-top: 14px; }
+
+  .slab-row { font-size: 13px; }
+  .slab-section-label { font-size: 11px; }
+
+  .actual-avg { font-size: 13px; margin-bottom: 14px; }
+  .slider-val { font-size: 17px; min-width: 40px; }
+  .unit-label { font-size: 13px; }
+  .adj-btn { width: 42px; height: 42px; font-size: 24px; }
+  .delta-box { font-size: 14px; padding: 11px 14px; border-radius: 10px; }
+
+  #history-list li { font-size: 13px; padding: 10px 0; }
+  .history-empty { font-size: 13px; }
+}
+
+/* --- Wide desktop: 1100px+ --- */
+@media (min-width: 1100px) {
+  body { padding: 52px 40px; }
+  h1 { font-size: 28px; }
+  .card { padding: 30px 32px; }
+  .readings-grid { gap: 32px; }
+  input[type="date"],
+  input[type="text"] { font-size: 16px; padding: 11px 14px; }
+  #calc-btn { font-size: 17px; padding: 15px; }
+  .usage-big { font-size: 54px; }
+  .bill-row { font-size: 16px; }
+  .bill-row.total { font-size: 22px; }
 }
