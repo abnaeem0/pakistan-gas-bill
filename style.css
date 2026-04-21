@@ -1,34 +1,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
-/* ---------- Base ---------- */
-* { box-sizing: border-box; }
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
 
+/* ---------- Base ---------- */
 body {
   font-family: 'Share Tech Mono', monospace;
   margin: 0;
-  padding: 16px;
+  padding: 12px;
   background: #03709b;
   color: #fff;
   min-height: 100vh;
+  -webkit-text-size-adjust: 100%;
 }
 
 /* ---------- Container ---------- */
 .container {
-  max-width: 480px;
+  max-width: 680px;
   margin: 0 auto;
+  width: 100%;
 }
 
 /* ---------- Nav ---------- */
 nav {
   display: flex;
   gap: 16px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 nav a {
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.6);
   text-decoration: none;
-  font-size: 12px;
-  letter-spacing: 0.04em;
+  font-size: 11px;
+  letter-spacing: 0.05em;
 }
 nav a:hover { color: #fff; }
 
@@ -37,15 +40,17 @@ nav a:hover { color: #fff; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
-  gap: 10px;
+  margin-bottom: 12px;
+  gap: 8px;
+  flex-wrap: nowrap;
 }
 h1 {
   margin: 0;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: #fff;
   letter-spacing: 0.03em;
+  white-space: nowrap;
 }
 
 /* ---------- User type toggle ---------- */
@@ -58,9 +63,9 @@ h1 {
   flex-shrink: 0;
 }
 .toggle-opt {
-  padding: 5px 11px;
+  padding: 5px 10px;
   border-radius: 6px;
-  font-size: 11px;
+  font-size: 10px;
   font-family: 'Share Tech Mono', monospace;
   color: rgba(255,255,255,0.5);
   background: transparent;
@@ -68,6 +73,7 @@ h1 {
   cursor: pointer;
   letter-spacing: 0.03em;
   transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
 }
 .toggle-opt.active {
   background: rgba(255,255,255,0.18);
@@ -78,31 +84,114 @@ h1 {
 .card {
   background: rgba(0,0,0,0.25);
   border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
   border: 1px solid rgba(255,255,255,0.1);
 }
 .card.hidden { display: none; }
 
 .card-label {
-  font-size: 11px;
+  font-size: 10px;
   color: rgba(255,255,255,0.45);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+}
+
+/* ---------- Meter instruction ---------- */
+.meter-instruction {
+  margin-bottom: 14px;
+  padding: 10px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.meter-instruction-meter {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-bottom: 6px;
+}
+.mi-box {
+  width: 20px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 3px;
+  font-family: 'Share Tech Mono', monospace;
+  flex-shrink: 0;
+}
+.mi-box.black {
+  background: #111;
+  color: rgba(255,255,255,0.4);
+}
+.mi-box.red-dim {
+  background: rgba(180,0,0,0.35);
+  color: rgba(255,255,255,0.25);
+}
+.mi-sep {
+  width: 8px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.4);
+  font-weight: 700;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.meter-instruction-labels {
+  display: flex;
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding-left: 1px;
+}
+.mi-label-enter {
+  color: rgba(255,255,255,0.6);
+  width: 114px;
+}
+.mi-label-ignore {
+  color: rgba(255,100,100,0.5);
 }
 
 /* ---------- Readings grid ---------- */
 .readings-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 14px;
-  margin-bottom: 14px;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 .reading-col { display: flex; flex-direction: column; gap: 6px; }
-.reading-label {
-  font-size: 11px;
-  color: rgba(255,255,255,0.45);
+
+/* ---------- Step labels ---------- */
+.step-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.02em;
+  margin-bottom: 6px;
+}
+.step-num {
+  font-size: 15px;
+  color: rgba(255,255,255,0.6);
+}
+
+/* ---------- Field groups ---------- */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.field-label {
+  font-size: 9px;
+  color: rgba(255,255,255,0.4);
   letter-spacing: 0.07em;
   text-transform: uppercase;
 }
@@ -111,14 +200,15 @@ h1 {
 input[type="date"],
 input[type="text"] {
   width: 100%;
-  padding: 7px 10px;
+  padding: 7px 8px;
   background: rgba(0,0,0,0.3);
   border: 1px solid rgba(255,255,255,0.18);
   border-radius: 7px;
   color: #fff;
-  font-size: 13px;
+  font-size: 12px;
   font-family: 'Share Tech Mono', monospace;
   transition: border-color 0.2s;
+  min-width: 0;
 }
 input[type="date"]:focus,
 input[type="text"]:focus {
@@ -135,20 +225,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: flex;
   align-items: center;
   gap: 2px;
-  padding: 8px 6px;
+  padding: 6px 5px;
   background: rgba(0,0,0,0.2);
-  border-radius: 8px;
+  border-radius: 7px;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .digit-box {
-  width: 20px;
-  height: 34px;
+  width: 18px;
+  height: 30px;
   background: #111;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   border-radius: 3px;
   font-family: 'Share Tech Mono', monospace;
@@ -158,8 +249,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .digit-box.dimmed { opacity: 0.25; }
 .digit-box.red.dimmed { background: #c40000; opacity: 0.2; }
 .decimal-box {
-  width: 10px;
-  height: 34px;
+  width: 8px;
+  height: 30px;
   background: rgba(255,255,255,0.9);
   color: #000;
   display: flex;
@@ -167,16 +258,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   justify-content: center;
   font-weight: 700;
   border-radius: 3px;
-  font-size: 14px;
+  font-size: 13px;
   flex-shrink: 0;
 }
 .unit-box {
   background: rgba(255,255,255,0.12);
   color: rgba(255,255,255,0.75);
-  padding: 3px 6px;
+  padding: 2px 5px;
   border-radius: 4px;
-  margin-left: 4px;
-  font-size: 11px;
+  margin-left: 3px;
+  font-size: 10px;
   font-weight: 700;
   flex-shrink: 0;
 }
@@ -184,50 +275,47 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* ---------- Calculate button ---------- */
 #calc-btn {
   width: 100%;
-  padding: 10px;
+  padding: 11px;
   background: rgba(255,255,255,0.12);
   border: 1px solid rgba(255,255,255,0.25);
   border-radius: 8px;
   color: #fff;
-  font-size: 14px;
+  font-size: 13px;
   font-family: 'Share Tech Mono', monospace;
   letter-spacing: 0.05em;
   cursor: pointer;
   transition: background 0.18s, border-color 0.18s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
-#calc-btn:hover {
-  background: rgba(255,255,255,0.2);
-  border-color: rgba(255,255,255,0.5);
-}
+#calc-btn:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
+#calc-btn:active { background: rgba(255,255,255,0.25); }
 
-/* ---------- Result card ---------- */
+/* ---------- Usage card ---------- */
 .usage-big {
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 700;
   color: #fff;
   letter-spacing: 0.02em;
 }
 .usage-sub {
-  font-size: 13px;
+  font-size: 12px;
   color: rgba(255,255,255,0.55);
   margin-top: 3px;
   margin-bottom: 4px;
 }
-.divider {
-  border: none;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  margin: 12px 0;
-}
+
+/* ---------- Bill rows ---------- */
 .bill-row {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: 12px;
   color: rgba(255,255,255,0.7);
   padding: 3px 0;
 }
 .bill-row.total {
   color: #fff;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   padding-top: 10px;
   margin-top: 6px;
@@ -239,13 +327,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background: none;
   border: none;
   color: rgba(255,255,255,0.4);
-  font-size: 11px;
+  font-size: 10px;
   font-family: 'Share Tech Mono', monospace;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   cursor: pointer;
   padding: 8px 0 0;
   display: block;
+  -webkit-tap-highlight-color: transparent;
 }
 .collapse-btn:hover { color: rgba(255,255,255,0.7); }
 .collapse-btn.hidden { display: none; }
@@ -260,32 +349,53 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .slab-row {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 11px;
   color: rgba(255,255,255,0.55);
   padding: 3px 0;
 }
 .slab-row span:last-child { color: rgba(255,255,255,0.75); }
+.slab-section-label {
+  font-size: 9px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  margin-top: 2px;
+}
+.slab-row.slab-subtotal {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: 6px;
+  padding-top: 6px;
+  color: rgba(255,255,255,0.7);
+}
+.slab-row.slab-total {
+  border-top: 1px solid rgba(255,255,255,0.2);
+  margin-top: 6px;
+  padding-top: 6px;
+  color: #fff;
+  font-weight: 700;
+}
 
 /* ---------- What-if card ---------- */
 .actual-avg {
-  font-size: 12px;
+  font-size: 11px;
   color: rgba(255,255,255,0.4);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 .slider-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   margin-bottom: 10px;
 }
 .adj-btn {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 8px;
   background: rgba(0,0,0,0.3);
   border: 1px solid rgba(255,255,255,0.2);
   color: #fff;
-  font-size: 22px;
+  font-size: 20px;
   font-family: 'Share Tech Mono', monospace;
   display: flex;
   align-items: center;
@@ -295,32 +405,36 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   transition: background 0.15s;
   line-height: 1;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 .adj-btn:hover { background: rgba(0,0,0,0.5); }
+.adj-btn:active { background: rgba(0,0,0,0.6); }
 
 input[type="range"] {
   flex: 1;
   accent-color: #fff;
   height: 4px;
   cursor: pointer;
+  min-width: 0;
 }
 .slider-val {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: #fff;
-  min-width: 36px;
+  min-width: 34px;
   text-align: center;
   flex-shrink: 0;
 }
 .unit-label {
-  font-size: 12px;
+  font-size: 11px;
   color: rgba(255,255,255,0.45);
   flex-shrink: 0;
 }
 
 /* ---------- Delta box ---------- */
 .delta-box {
-  font-size: 13px;
+  font-size: 12px;
   padding: 9px 12px;
   border-radius: 8px;
   background: rgba(255,255,255,0.07);
@@ -350,141 +464,111 @@ input[type="range"] {
   margin: 0;
 }
 #history-list li {
-  font-size: 12px;
+  font-size: 11px;
   color: rgba(255,255,255,0.6);
-  padding: 7px 0;
+  padding: 8px 0;
   border-bottom: 1px solid rgba(255,255,255,0.07);
   cursor: pointer;
   transition: color 0.15s;
+  -webkit-tap-highlight-color: transparent;
 }
 #history-list li:last-child { border-bottom: none; }
 #history-list li:hover { color: #fff; }
 .history-empty {
-  font-size: 12px;
+  font-size: 11px;
   color: rgba(255,255,255,0.3);
 }
 .history-empty.hidden { display: none; }
 
+/* ============================================================
+   RESPONSIVE — tablet / desktop
+   Mobile-first: base styles above target ~320–480px.
+   Progressively enhance from 520px up.
+   ============================================================ */
 
-/* ---------- Step labels ---------- */
-.step-label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 0.02em;
-  margin-bottom: 8px;
-}
-.step-num {
-  font-size: 16px;
-  color: rgba(255,255,255,0.6);
-}
-
-/* ---------- Field groups ---------- */
-.field-group {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-.field-label {
-  font-size: 10px;
-  color: rgba(255,255,255,0.4);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-}
-
-/* ---------- Meter instruction ---------- */
-.meter-instruction {
-  margin-bottom: 16px;
-  padding: 10px 12px;
-  background: rgba(0,0,0,0.2);
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.08);
-}
-.meter-instruction-meter {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  margin-bottom: 6px;
-}
-.mi-box {
-  width: 22px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 700;
-  border-radius: 3px;
-  font-family: 'Share Tech Mono', monospace;
-  flex-shrink: 0;
-}
-.mi-box.black {
-  background: #111;
-  color: rgba(255,255,255,0.4);
-}
-.mi-box.red-dim {
-  background: rgba(180,0,0,0.35);
-  color: rgba(255,255,255,0.25);
-}
-.mi-sep {
-  width: 10px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(255,255,255,0.4);
-  font-weight: 700;
-  font-size: 13px;
-  flex-shrink: 0;
-}
-.meter-instruction-labels {
-  display: flex;
-  font-size: 10px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding-left: 1px;
-}
-.mi-label-enter {
-  color: rgba(255,255,255,0.6);
-  width: 122px; /* approx width of 5 black boxes + separator */
-}
-.mi-label-ignore {
-  color: rgba(255,100,100,0.5);
-}
-
-/* ---------- Mobile ---------- */
-@media (max-width: 480px) {
-  .readings-grid { grid-template-columns: 1fr; }
-  .digit-box { width: 24px; height: 38px; font-size: 15px; }
-  .decimal-box { width: 12px; height: 38px; }
-}
+/* --- Narrow sweetspot: 360px and below --- */
 @media (max-width: 360px) {
-  h1 { font-size: 15px; }
-  .toggle-opt { padding: 5px 8px; font-size: 10px; }
+  h1 { font-size: 13px; }
+  .toggle-opt { padding: 4px 7px; font-size: 9px; }
+  .readings-grid { gap: 8px; }
+  input[type="date"],
+  input[type="text"] { font-size: 11px; padding: 6px 7px; }
+  .digit-box { width: 16px; height: 26px; font-size: 11px; }
+  .decimal-box { width: 7px; height: 26px; }
+  .meter-display { padding: 5px 4px; }
 }
 
-/* ---------- Slab breakdown extras ---------- */
-.slab-section-label {
-  font-size: 10px;
-  color: rgba(255,255,255,0.3);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-  margin-top: 2px;
+/* --- Phablet / large phone: 480px+ --- */
+@media (min-width: 480px) {
+  body { padding: 14px 18px; }
+
+  h1 { font-size: 18px; }
+
+  .card { padding: 16px; margin-bottom: 12px; }
+  .card-label { font-size: 11px; }
+
+  .toggle-opt { padding: 5px 11px; font-size: 11px; }
+
+  .step-label { font-size: 13px; }
+  .field-label { font-size: 10px; }
+
+  input[type="date"],
+  input[type="text"] { font-size: 13px; padding: 7px 10px; }
+
+  .digit-box { width: 20px; height: 32px; font-size: 13px; }
+  .decimal-box { width: 10px; height: 32px; }
+  .meter-display { padding: 7px 6px; }
+  .mi-box { width: 22px; height: 32px; font-size: 13px; }
+  .mi-sep { width: 10px; height: 32px; font-size: 13px; }
+  .mi-label-enter { width: 122px; }
+  .meter-instruction-labels { font-size: 10px; }
+
+  .usage-big { font-size: 32px; }
+  .usage-sub { font-size: 13px; }
+
+  .bill-row { font-size: 13px; }
+  .bill-row.total { font-size: 16px; }
+
+  .slab-row { font-size: 12px; }
+  .slab-section-label { font-size: 10px; }
+
+  .actual-avg { font-size: 12px; }
+  .slider-val { font-size: 15px; }
+  .unit-label { font-size: 12px; }
+  .delta-box { font-size: 13px; }
+
+  #history-list li { font-size: 12px; }
+  .history-empty { font-size: 12px; }
+  .adj-btn { width: 38px; height: 38px; font-size: 22px; }
 }
-.slab-row.slab-subtotal {
-  border-top: 1px solid rgba(255,255,255,0.1);
-  margin-top: 6px;
-  padding-top: 6px;
-  color: rgba(255,255,255,0.7);
+
+/* --- Tablet / desktop: 600px+ --- */
+@media (min-width: 600px) {
+  body { padding: 24px; }
+
+  h1 { font-size: 20px; }
+
+  .card { padding: 20px 22px; margin-bottom: 14px; }
+
+  .readings-grid { gap: 18px; margin-bottom: 16px; }
+
+  input[type="date"],
+  input[type="text"] { font-size: 14px; padding: 9px 11px; }
+
+  #calc-btn { font-size: 14px; padding: 12px; }
+
+  .usage-big { font-size: 36px; }
+  .bill-row { font-size: 14px; }
+  .bill-row.total { font-size: 18px; }
+
+  .digit-box { width: 22px; height: 36px; font-size: 14px; }
+  .decimal-box { width: 11px; height: 36px; }
 }
-.slab-row.slab-total {
-  border-top: 1px solid rgba(255,255,255,0.2);
-  margin-top: 6px;
-  padding-top: 6px;
-  color: #fff;
-  font-weight: 700;
+
+/* --- Wide desktop: 720px+ --- */
+@media (min-width: 720px) {
+  body { padding: 32px 24px; }
+  h1 { font-size: 22px; }
+  .card { padding: 22px 26px; }
+  .readings-grid { gap: 22px; }
 }
