@@ -2,7 +2,7 @@ import { calculateBill } from './calculator.js';
 import { renderBill, setupSlider, setupSlabToggle, saveHistory, renderHistory } from './ui.js';
 
 /* ---------- State ---------- */
-let userType = 'protected';
+let userType = 'nonProtected';
 let lastCalcState = null; // store inputs so toggle can recalculate
 
 /* ---------- Helpers ---------- */
