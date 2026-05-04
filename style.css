@@ -162,7 +162,7 @@ h1 {
 /* ---------- Readings grid ---------- */
 .readings-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 10px;
   margin-bottom: 12px;
 }
@@ -528,7 +528,7 @@ input[type="range"] {
   h1 { font-size: 20px; }
   .card { padding: 20px 22px; margin-bottom: 14px; }
   .card-label { font-size: 12px; }
-  .readings-grid { gap: 18px; margin-bottom: 16px; }
+  .readings-grid { grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 16px; }
   input[type="date"],
   input[type="text"] { font-size: 14px; padding: 9px 11px; }
   #calc-btn { font-size: 14px; padding: 12px; }
