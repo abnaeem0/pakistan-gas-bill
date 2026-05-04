@@ -8,7 +8,8 @@ body {
   font-family: 'Share Tech Mono', monospace;
   margin: 0;
   padding: 12px;
-  background: #03709b;
+  background: 
+#03709b;
   color: #fff;
   min-height: 100vh;
   -webkit-text-size-adjust: 100%;
@@ -111,19 +112,18 @@ h1 {
   align-items: center;
   gap: 2px;
   margin-bottom: 6px;
-  width: 100%;
 }
 .mi-box {
-  flex: 1;
-  min-width: 0;
-  aspect-ratio: 0.55;
+  width: 20px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: clamp(10px, 3vw, 16px);
+  font-size: 12px;
   font-weight: 700;
   border-radius: 3px;
   font-family: 'Share Tech Mono', monospace;
+  flex-shrink: 0;
 }
 .mi-box.black {
   background: #111;
@@ -134,14 +134,15 @@ h1 {
   color: rgba(255,255,255,0.25);
 }
 .mi-sep {
-  flex-shrink: 0;
-  width: clamp(6px, 1.8vw, 10px);
+  width: 8px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: rgba(255,255,255,0.4);
   font-weight: 700;
-  font-size: clamp(10px, 3vw, 13px);
+  font-size: 12px;
+  flex-shrink: 0;
 }
 .meter-instruction-labels {
   display: flex;
@@ -152,20 +153,28 @@ h1 {
 }
 .mi-label-enter {
   color: rgba(255,255,255,0.6);
-  flex: 5;
+  width: 114px;
 }
 .mi-label-ignore {
   color: rgba(255,100,100,0.5);
-  flex: 3;
 }
 
 /* ---------- Readings grid ---------- */
 .readings-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-bottom: 12px;
 }
+
+/* phones: stack previous + current */
+@media (max-width: 520px) {
+  .readings-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
 .reading-col { display: flex; flex-direction: column; gap: 6px; }
 
 /* ---------- Step labels ---------- */
@@ -229,30 +238,31 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   padding: 6px 5px;
   background: rgba(0,0,0,0.2);
   border-radius: 7px;
-  width: 100%;
-  box-sizing: border-box;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .digit-box {
-  flex: 1;
-  min-width: 0;
-  aspect-ratio: 0.55;
+  width: 18px;
+  height: 30px;
   background: #111;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: clamp(11px, 3.8vw, 17px);
+  font-size: 12px;
   font-weight: 700;
   border-radius: 3px;
   font-family: 'Share Tech Mono', monospace;
-}
-.digit-box.red { background: #c40000; }
-.digit-box.dimmed { opacity: 0.25; }
-.digit-box.red.dimmed { background: #c40000; opacity: 0.2; }
-.decimal-box {
   flex-shrink: 0;
-  width: clamp(6px, 1.8vw, 11px);
-  aspect-ratio: 0.55;
+}
+.digit-box.red { background: 
+#c40000; }
+.digit-box.dimmed { opacity: 0.25; }
+.digit-box.red.dimmed { background: 
+#c40000; opacity: 0.2; }
+.decimal-box {
+  width: 8px;
+  height: 30px;
   background: rgba(255,255,255,0.9);
   color: #000;
   display: flex;
@@ -260,7 +270,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   justify-content: center;
   font-weight: 700;
   border-radius: 3px;
-  font-size: clamp(10px, 3vw, 14px);
+  font-size: 13px;
+  flex-shrink: 0;
 }
 .unit-box {
   background: rgba(255,255,255,0.12);
@@ -268,7 +279,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   padding: 2px 5px;
   border-radius: 4px;
   margin-left: 3px;
-  font-size: clamp(9px, 2vw, 12px);
+  font-size: 10px;
   font-weight: 700;
   flex-shrink: 0;
 }
@@ -445,12 +456,14 @@ input[type="range"] {
 }
 .delta-box.up {
   background: rgba(255,100,100,0.15);
-  color: #ffbbbb;
+  color: 
+#ffbbbb;
   border-color: rgba(255,100,100,0.25);
 }
 .delta-box.down {
   background: rgba(100,220,160,0.12);
-  color: #88ffcc;
+  color: 
+#88ffcc;
   border-color: rgba(100,220,160,0.2);
 }
 .delta-box.same {
@@ -482,41 +495,62 @@ input[type="range"] {
 .history-empty.hidden { display: none; }
 
 /* ============================================================
-   RESPONSIVE
-   Mobile-first. Base styles above target ~320–480px.
+   RESPONSIVE — tablet / desktop
+   Mobile-first: base styles above target ~320–480px.
+   Progressively enhance from 520px up.
    ============================================================ */
 
-/* --- Very narrow: 360px and below --- */
+/* --- Narrow sweetspot: 360px and below --- */
 @media (max-width: 360px) {
   h1 { font-size: 13px; }
   .toggle-opt { padding: 4px 7px; font-size: 9px; }
   .readings-grid { gap: 8px; }
   input[type="date"],
   input[type="text"] { font-size: 11px; padding: 6px 7px; }
+  .digit-box { width: 16px; height: 26px; font-size: 11px; }
+  .decimal-box { width: 7px; height: 26px; }
+  .meter-display { padding: 5px 4px; }
 }
 
 /* --- Phablet / large phone: 480px+ --- */
 @media (min-width: 480px) {
   body { padding: 14px 18px; }
+
   h1 { font-size: 18px; }
+
   .card { padding: 16px; margin-bottom: 12px; }
   .card-label { font-size: 11px; }
+
   .toggle-opt { padding: 5px 11px; font-size: 11px; }
+
   .step-label { font-size: 13px; }
   .field-label { font-size: 10px; }
+
   input[type="date"],
   input[type="text"] { font-size: 13px; padding: 7px 10px; }
+
+  .digit-box { width: 20px; height: 32px; font-size: 13px; }
+  .decimal-box { width: 10px; height: 32px; }
+  .meter-display { padding: 7px 6px; }
+  .mi-box { width: 22px; height: 32px; font-size: 13px; }
+  .mi-sep { width: 10px; height: 32px; font-size: 13px; }
+  .mi-label-enter { width: 122px; }
   .meter-instruction-labels { font-size: 10px; }
+
   .usage-big { font-size: 32px; }
   .usage-sub { font-size: 13px; }
+
   .bill-row { font-size: 13px; }
   .bill-row.total { font-size: 16px; }
+
   .slab-row { font-size: 12px; }
   .slab-section-label { font-size: 10px; }
+
   .actual-avg { font-size: 12px; }
   .slider-val { font-size: 15px; }
   .unit-label { font-size: 12px; }
   .delta-box { font-size: 13px; }
+
   #history-list li { font-size: 12px; }
   .history-empty { font-size: 12px; }
   .adj-btn { width: 38px; height: 38px; font-size: 22px; }
@@ -525,48 +559,79 @@ input[type="range"] {
 /* --- Tablet: 600px+ --- */
 @media (min-width: 600px) {
   body { padding: 24px; }
+
   h1 { font-size: 20px; }
+
   .card { padding: 20px 22px; margin-bottom: 14px; }
   .card-label { font-size: 12px; }
-  .readings-grid { grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 16px; }
+
+  .readings-grid { gap: 18px; margin-bottom: 16px; }
+
   input[type="date"],
   input[type="text"] { font-size: 14px; padding: 9px 11px; }
+
   #calc-btn { font-size: 14px; padding: 12px; }
+
   .usage-big { font-size: 36px; }
   .usage-sub { font-size: 14px; }
   .bill-row { font-size: 14px; }
   .bill-row.total { font-size: 18px; }
+
+  .digit-box { width: 22px; height: 36px; font-size: 14px; }
+  .decimal-box { width: 11px; height: 36px; }
 }
 
 /* --- Desktop: 800px+ --- */
 @media (min-width: 800px) {
   body { padding: 40px 32px; }
+
   nav a { font-size: 14px; }
   nav { margin-bottom: 18px; gap: 20px; }
+
   h1 { font-size: 26px; letter-spacing: 0.04em; }
+
   .toggle-opt { padding: 7px 16px; font-size: 13px; }
+
   .card { padding: 26px 28px; margin-bottom: 16px; border-radius: 16px; }
   .card-label { font-size: 12px; margin-bottom: 14px; letter-spacing: 0.1em; }
+
   .step-label { font-size: 15px; margin-bottom: 10px; }
   .step-num { font-size: 18px; }
   .field-label { font-size: 11px; }
+
   .readings-grid { gap: 28px; margin-bottom: 20px; }
+
   input[type="date"],
   input[type="text"] { font-size: 15px; padding: 10px 13px; border-radius: 9px; }
+
   #calc-btn { font-size: 16px; padding: 14px; border-radius: 10px; letter-spacing: 0.07em; }
+
   .meter-instruction { padding: 14px 16px; margin-bottom: 20px; }
+  .mi-box { width: 28px; height: 40px; font-size: 16px; }
+  .mi-sep { width: 13px; height: 40px; font-size: 16px; }
+  .meter-instruction-labels { font-size: 11px; }
+  .mi-label-enter { width: 152px; }
+
+  .digit-box { width: 28px; height: 44px; font-size: 17px; border-radius: 4px; }
+  .decimal-box { width: 14px; height: 44px; font-size: 17px; }
+  .unit-box { font-size: 12px; padding: 3px 7px; }
   .meter-display { padding: 9px 8px; border-radius: 10px; }
+
   .usage-big { font-size: 48px; }
   .usage-sub { font-size: 15px; margin-top: 5px; }
+
   .bill-row { font-size: 15px; padding: 5px 0; }
   .bill-row.total { font-size: 20px; padding-top: 14px; }
+
   .slab-row { font-size: 13px; }
   .slab-section-label { font-size: 11px; }
+
   .actual-avg { font-size: 13px; margin-bottom: 14px; }
   .slider-val { font-size: 17px; min-width: 40px; }
   .unit-label { font-size: 13px; }
   .adj-btn { width: 42px; height: 42px; font-size: 24px; }
   .delta-box { font-size: 14px; padding: 11px 14px; border-radius: 10px; }
+
   #history-list li { font-size: 13px; padding: 10px 0; }
   .history-empty { font-size: 13px; }
 }
